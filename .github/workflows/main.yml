@@ -26,9 +26,28 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
-      - name: build test image
+      - name: build frontend test image
         run: docker build -f ./client/Dockerfile.dev -t restlin1212/multi_docker_test_project .
       
-      - name: run tests
+      - name: run frontend tests
         run: docker run -e CI=true restlin1212/multi_docker_test_project npm test
+      
+      - name: build production images
+        run: |
+          docker build -t restlin1212/multi_docker_test_project_client ./client
+          docker build -t restlin1212/multi_docker_test_project_nginx ./nginx
+          docker build -t restlin1212/multi_docker_test_project_server ./server
+          docker build -t restlin1212/multi_docker_test_project_worker ./worker
+        
+      - name: Login to the docker CLI
+        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
+        
+      - name: Push production images to the docker hub
+        run: |
+          docker push restlin1212/multi_docker_test_project_client
+          docker push restlin1212/multi_docker_test_project_nginx
+          docker push restlin1212/multi_docker_test_project_server
+          docker push restlin1212/multi_docker_test_project_worker
+      
+      
         
