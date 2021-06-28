@@ -45,12 +45,12 @@ jobs:
       run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
     
     - name: Push production images to the docker hub
-      run:|
+      run: |
         docker push restlin1212/multi_docker_test_project_client
         docker push restlin1212/multi_docker_test_project_nginx
         docker push restlin1212/multi_docker_test_project_server
         docker push restlin1212/multi_docker_test_project_worker
-
+        
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
     
