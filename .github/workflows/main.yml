@@ -51,6 +51,9 @@ jobs:
         docker push restlin1212/multi_docker_test_project_server
         docker push restlin1212/multi_docker_test_project_worker
         
+    - name: Increment version_label in github workflow file
+      run: python ./update_version.py
+        
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
     
