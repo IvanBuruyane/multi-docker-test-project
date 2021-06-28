@@ -66,5 +66,5 @@ jobs:
         deployment_package: deploy.zip
         environment_name: Multidockertestproject-env
         region: us-east-2
-        version_label: 2
+        version_label: ${{ env.VERSION_LABEL }}
         wait_for_environment_recovery: 120
