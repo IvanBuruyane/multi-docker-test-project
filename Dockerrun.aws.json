@@ -1,0 +1,35 @@
+{
+	"AWSEBDockerrunVersion": 2,
+	"containerDefinitions": [
+		{
+			"name": "client",
+			"image": "restlin1212/multi_docker_test_project_client",
+			"hostname": "client",
+			"essential": false
+		},
+		{
+			"name": "server",
+			"image": "restlin1212/multi_docker_test_project_server",
+			"hostname": "api",
+			"essential": false
+		},		
+		{
+			"name": "worker",
+			"image": "restlin1212/multi_docker_test_project_worker",
+			"hostname": "worker",
+			"essential": false
+		},	
+		{
+			"name": "nginx",
+			"image": "restlin1212/multi_docker_test_project_nginx",
+			"essential": true,
+			"portMappings": [
+				{
+					"hostPort": 80,
+					"containerPort": 80
+				}
+			],
+			"links": ["client", "server"]
+		},	
+	]
+}
