@@ -1,5 +1,4 @@
 import os
-import re
 from pathlib import Path
 
 path = Path(Path.cwd(), "version.txt")
