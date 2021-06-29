@@ -11,6 +11,7 @@ version = int(text)
 version += 1
 os.environ["VERSION_LABEL"] = f"{version}"
 print("Environment version label: " + os.environ.get("VERSION_LABEL"))
+print(os.environ)
 with open(path, "w") as file:
     file.write(str(version))
 
