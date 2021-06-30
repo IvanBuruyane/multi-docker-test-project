@@ -28,31 +28,35 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     
-    - name: build frontend test image
-      run: docker build -f ./client/Dockerfile.dev -t restlin1212/multi_docker_test_project .
-    
-    - name: run frontend tests
-      run: docker run -e CI=true restlin1212/multi_docker_test_project npm test
-    
-    - name: build production images
-      run: |
-        docker build -t restlin1212/multi_docker_test_project_client ./client
-        docker build -t restlin1212/multi_docker_test_project_nginx ./nginx
-        docker build -t restlin1212/multi_docker_test_project_server ./server
-        docker build -t restlin1212/multi_docker_test_project_worker ./worker
-
-    - name: Login to the docker CLI
-      run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
-    
-    - name: Push production images to the docker hub
-      run: |
-        docker push restlin1212/multi_docker_test_project_client
-        docker push restlin1212/multi_docker_test_project_nginx
-        docker push restlin1212/multi_docker_test_project_server
-        docker push restlin1212/multi_docker_test_project_worker
+#    - name: build frontend test image
+#      run: docker build -f ./client/Dockerfile.dev -t restlin1212/multi_docker_test_project .
+#
+#    - name: run frontend tests
+#      run: docker run -e CI=true restlin1212/multi_docker_test_project npm test
+#
+#    - name: build production images
+#      run: |
+#        docker build -t restlin1212/multi_docker_test_project_client ./client
+#        docker build -t restlin1212/multi_docker_test_project_nginx ./nginx
+#        docker build -t restlin1212/multi_docker_test_project_server ./server
+#        docker build -t restlin1212/multi_docker_test_project_worker ./worker
+#
+#    - name: Login to the docker CLI
+#      run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u "${{secrets.DOCKER_ID}}" --password-stdin
+#
+#    - name: Push production images to the docker hub
+#      run: |
+#        docker push restlin1212/multi_docker_test_project_client
+#        docker push restlin1212/multi_docker_test_project_nginx
+#        docker push restlin1212/multi_docker_test_project_server
+#        docker push restlin1212/multi_docker_test_project_worker
         
     - name: Increment version_label in github workflow file
-      run: python ./update_version.py
+      run: |
+        version=$(<version.txt)
+        echo "$version"
+        version=$((version+1))
+        echo "$version"    
         
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
@@ -66,5 +70,5 @@ jobs:
         deployment_package: deploy.zip
         environment_name: Multidockertestproject-env
         region: us-east-2
-        version_label: ${{ env.VERSION_LABEL }}
+        version_label: ${{ env.version }}
         wait_for_environment_recovery: 120
