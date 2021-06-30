@@ -53,10 +53,10 @@ jobs:
         
     - name: Increment version_label in github workflow file
       run: |
-        version=$(<version.txt)
-        echo "$version"
-        version=$((version+1))
-        echo "$version"    
+        export VERSION=$(<version.txt)
+        echo "$VERSION"
+        VERSION=$((VERSION+1))
+        echo "$VERSION"    
         
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
@@ -70,5 +70,5 @@ jobs:
         deployment_package: deploy.zip
         environment_name: Multidockertestproject-env
         region: us-east-2
-        version_label: ${{ env.version }}
+        version_label: ${{ env.VERSION }}
         wait_for_environment_recovery: 120
