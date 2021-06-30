@@ -62,6 +62,7 @@ jobs:
         echo $VERSION > version.txt
         git config --global user.email "iburuyane@gmail.com"
         git config --global user.name "IvanBuruyane"
+        git add .
         git commit -m "update version"
         
     - name: Generate deployment zip package
