@@ -56,7 +56,9 @@ jobs:
         export VERSION=$(<version.txt)
         echo "$VERSION"
         VERSION=$((VERSION+1))
-        echo "$VERSION"    
+        echo "$VERSION"
+        echo "VERSION_LABEL=$VERSION" >> $GITHUB_ENV
+        echo "${{ env.VERSION_LABEL }}"
         
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
@@ -70,5 +72,5 @@ jobs:
         deployment_package: deploy.zip
         environment_name: Multidockertestproject-env
         region: us-east-2
-        version_label: ${{ env.VERSION }}
+        version_label: ${{ env.VERSION_LABEL }}
         wait_for_environment_recovery: 120
