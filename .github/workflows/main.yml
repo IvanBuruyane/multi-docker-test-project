@@ -60,6 +60,8 @@ jobs:
         echo "VERSION_LABEL=$VERSION" >> $GITHUB_ENV
         echo "${{ env.VERSION_LABEL }}"
         echo $VERSION > version.txt
+        git config --global user.email "iburuyane@gmail.com"
+        git config --global user.name "IvanBuruyane"
         git commit -m "update version"
         
     - name: Generate deployment zip package
