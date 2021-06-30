@@ -59,6 +59,8 @@ jobs:
         echo "$VERSION"
         echo "VERSION_LABEL=$VERSION" >> $GITHUB_ENV
         echo "${{ env.VERSION_LABEL }}"
+        echo $VERSION > version.txt
+        git commit -m "update version"
         
     - name: Generate deployment zip package
       run: zip -r deploy.zip . -x '*.git*'
